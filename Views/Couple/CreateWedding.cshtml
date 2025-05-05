@@ -1,0 +1,102 @@
+@model WeddingCreateViewModel
+@{
+    ViewData["Title"] = "Create Your Wedding";
+}
+
+@section Styles {
+    <style>
+        .card-selectable {
+            cursor: pointer;
+            transition: 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .card-selectable.selected {
+            border-color: #0d6efd;
+            background-color: #e7f1ff;
+        }
+
+        .form-check-input {
+            display: none;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="mb-4">Plan Your Dream Wedding</h2>
+        <form asp-action="CreateWedding" method="post">
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Date" class="form-label"></label>
+                <input asp-for="Date" class="form-control" type="date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <!-- Vendor Card Selection -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Select Vendors</label>
+                <div class="row g-3">
+                    @foreach (var vendor in Model.AvailableVendors)
+                    {
+                        <div class="col-md-4">
+                            <label class="card card-selectable h-100 shadow-sm p-3" for="vendor-@vendor.Id">
+                                <h5 class="card-title">@vendor.Name</h5>
+                                <p class="text-muted mb-1">@vendor.Category</p>
+                                <p class="small">@vendor.Description</p>
+                                <input type="checkbox" id="vendor-@vendor.Id" name="SelectedVendorIds" value="@vendor.Id" class="form-check-input vendor-check" />
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Planner Card Selection -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Assign a Wedding Planner</label>
+                <div class="row g-3">
+                    @foreach (var planner in Model.AvailablePlanners)
+                    {
+                        <div class="col-md-4">
+                            <label class="card card-selectable h-100 shadow-sm p-3" for="planner-@planner.Id">
+                                <h5 class="card-title">@planner.FullName</h5>
+                                <p class="small text-muted">@planner.Email</p>
+                                <input type="radio" id="planner-@planner.Id" name="PlannerId" value="@planner.Id" class="form-check-input planner-radio" />
+                            </label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="PlannerId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary rounded-pill">Create Wedding</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Vendor card toggle
+        document.querySelectorAll('.vendor-check').forEach(input => {
+            input.addEventListener('change', () => {
+                input.closest('.card-selectable').classList.toggle('selected', input.checked);
+            });
+        });
+
+        // Planner card toggle (only one allowed)
+        document.querySelectorAll('.planner-radio').forEach(input => {
+            input.addEventListener('change', () => {
+                document.querySelectorAll('.planner-radio').forEach(i => {
+                    i.closest('.card-selectable').classList.remove('selected');
+                });
+                input.closest('.card-selectable').classList.add('selected');
+            });
+        });
+    </script>
+}

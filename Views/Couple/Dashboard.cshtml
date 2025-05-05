@@ -1,0 +1,36 @@
+@model Wedding
+
+@{
+    ViewData["Title"] = "Couple Dashboard";
+}
+
+@if (Model == null)
+{
+    <div class="text-center my-5">
+        <h3>You haven't created a wedding yet</h3>
+        <a class="btn btn-success mt-3" asp-action="CreateWedding">Create Wedding</a>
+    </div>
+}
+else
+{
+    <div class="card mt-4 shadow p-4">
+        <h2 class="mb-3">@Model.Title (@Model.Date.ToString("MMMM dd, yyyy"))</h2>
+        <p><strong>Assigned Planner:</strong> @Model.Planner?.FullName</p>
+
+        <h5 class="mt-4">Vendors:</h5>
+        <ul>
+            @foreach (var vendor in Model.Vendors)
+            {
+                <li>@vendor.Name – @vendor.Category</li>
+            }
+        </ul>
+
+        <hr />
+        <div class="mt-3">
+            <a class="btn btn-outline-primary" asp-controller="Checklist" asp-action="Index" asp-route-weddingId="@Model.Id">Checklist</a>
+            <a class="btn btn-outline-secondary" asp-controller="Budget" asp-action="Index" asp-route-weddingId="@Model.Id">Budget</a>
+            <a class="btn btn-outline-info" asp-controller="Timeline" asp-action="Index" asp-route-weddingId="@Model.Id">Timeline</a>
+            <a class="btn btn-outline-success" asp-controller="Guest" asp-action="Index" asp-route-weddingId="@Model.Id">Guest List</a>
+        </div>
+    </div>
+}

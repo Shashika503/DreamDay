@@ -1,0 +1,128 @@
+﻿@model LandingPageViewModel
+@{
+    ViewData["Title"] = "DreamDay – Your Perfect Wedding Planner";
+}
+
+<!-- Hero Section with Carousel -->
+<section class="hero-section">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide" style="background-image: url('/images/hero1.jpg');">
+                    <div class="overlay-text text-center text-white">
+                        <h1 class="display-4 fw-bold">Make Your Dream Wedding a Reality</h1>
+                        <p class="lead mb-4">Explore beautiful venues, trusted vendors, and expert planners.</p>
+                        <a href="/Identity/Account/Register" class="btn btn-lg btn-light rounded-pill px-5">Start Planning</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide" style="background-image: url('/images/hero2.jpg');">
+                    <div class="overlay-text text-center text-white">
+                        <h1 class="display-4 fw-bold">Unforgettable Memories Begin Here</h1>
+                        <p class="lead mb-4">Tailored planning to match your unique love story.</p>
+                        <a href="/Identity/Account/Register" class="btn btn-lg btn-light rounded-pill px-5">Join Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide" style="background-image: url('/images/hero3.jpg');">
+                    <div class="overlay-text text-center text-white">
+                        <h1 class="display-4 fw-bold">Elegant. Seamless. Yours.</h1>
+                        <p class="lead mb-4">Professional planners by your side every step.</p>
+                        <a href="/Identity/Account/Register" class="btn btn-lg btn-light rounded-pill px-5">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Vendors Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Top Venues & Vendors</h2>
+        <div class="row g-4">
+            @foreach (var vendor in Model.Vendors)
+            {
+                <div class="col-md-4 mb-4" data-aos="fade-up">
+                    <div class="card h-100 shadow-sm border-0 rounded-4">
+                        <img src="/images/default-vendor.jpg" class="card-img-top rounded-top-4" alt="@vendor.Name" />
+                        <div class="card-body">
+                            <h5 class="card-title">@vendor.Name</h5>
+                            <p class="text-muted">@vendor.Description</p>
+                            <p><small><strong>Category:</strong> @vendor.Category</small></p>
+                            <p><small><strong>From:</strong> $@vendor.PriceRange</small></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Planners Section -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Meet Our Expert Wedding Planners</h2>
+        <div class="row g-4 justify-content-center">
+            @foreach (var planner in Model.Planners.Take(3))
+            {
+                <div class="col-md-4" data-aos="zoom-in">
+                    <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                        <img src="/images/default-user.jpg" class="rounded-circle mb-3" style="width: 80px;" alt="@planner.FullName" />
+                        <h5>@planner.FullName</h5>
+                        <p class="text-muted">@planner.Email</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Past Weddings Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Wedding Highlights</h2>
+        <div id="weddingCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4 shadow-sm">
+                @for (int i = 0; i < Model.PastWeddings.Count; i++)
+{
+    var wedding = Model.PastWeddings[i];
+    var imageNumber = (i % 4) + 1;
+    <div class="carousel-item @(i == 0 ? "active" : "")">
+        <img src="@($"/images/weddings{imageNumber}.jpg")" class="d-block w-100" alt="Wedding @wedding.Title" />
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-4 p-3" data-aos="fade-up">
+            <h5>@wedding.Title</h5>
+            <p>@wedding.Date.ToString("MMMM dd, yyyy") – by @wedding.Couple?.FullName</p>
+        </div>
+    </div>
+}
+
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#weddingCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#weddingCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="text-center py-5 bg-primary text-white">
+    <div class="container">
+        <h2 class="mb-3">Create Your Dream Wedding with DreamDay</h2>
+        <a href="/Identity/Account/Register" class="btn btn-outline-light btn-lg rounded-pill px-4">Join Free Today</a>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+}
