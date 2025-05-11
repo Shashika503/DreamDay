@@ -52,7 +52,19 @@ public async Task<IActionResult> CreateWedding(WeddingCreateViewModel model)
 {
     if (!ModelState.IsValid)
     {
-        // Repopulate vendors and planners before returning to view
+        // Log errors if the model is invalid
+        Debug.WriteLine("❌ ModelState is invalid.");
+        foreach (var entry in ModelState)
+        {
+            var key = entry.Key;
+            var errors = entry.Value.Errors;
+            foreach (var error in errors)
+            {
+                Debug.WriteLine($"Error in '{key}': {error.ErrorMessage}");
+            }
+        }
+
+        // Repopulate necessary data (vendors and planners)
         model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
         model.AvailableVendors = await _context.Vendors.ToListAsync();
 
@@ -61,22 +73,42 @@ public async Task<IActionResult> CreateWedding(WeddingCreateViewModel model)
 
     var user = await _userManager.GetUserAsync(User);
 
+    // Log selected data
+    Debug.WriteLine($"✔️ Creating wedding for user: {user.Email}");
+    Debug.WriteLine($"➡️ Title: {model.Title}");
+    Debug.WriteLine($"➡️ Date: {model.Date}");
+    Debug.WriteLine($"➡️ PlannerId: {model.PlannerId}");
+    Debug.WriteLine("➡️ SelectedVendorIds: " + string.Join(", ", model.SelectedVendorIds ?? new List<int>()));
+
+    // Fetch the selected vendors
+    var vendors = await _context.Vendors
+        .Where(v => model.SelectedVendorIds.Contains(v.Id))
+        .ToListAsync();
+
+    if (!vendors.Any())
+    {
+        Debug.WriteLine("⚠️ No vendors selected.");
+        ModelState.AddModelError(string.Empty, "Please select at least one vendor."); // Add a custom error
+        model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
+        model.AvailableVendors = await _context.Vendors.ToListAsync();
+        return View(model); // Return form with error message
+    }
+
+    // Create wedding object and save
     var wedding = new Wedding
     {
         Title = model.Title,
         Date = model.Date.Value,
         CoupleId = user.Id,
         PlannerId = model.PlannerId,
-        Vendors = await _context.Vendors
-            .Where(v => model.SelectedVendorIds.Contains(v.Id))
-            .ToListAsync()
+        Vendors = vendors
     };
 
     _context.Weddings.Add(wedding);
     await _context.SaveChangesAsync();
 
+    Debug.WriteLine("✅ Wedding saved successfully.");
     return RedirectToAction("Dashboard");
 }
-
 
 }

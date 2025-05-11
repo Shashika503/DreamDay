@@ -1,0 +1,19 @@
+﻿@model DreamDay.Models.Guest
+
+@{
+    ViewData["Title"] = "Delete Guest";
+}
+
+<h3>Are you sure you want to delete this guest?</h3>
+
+<div>
+    <h5>@Model.Name</h5>
+    <p>@Model.Email</p>
+    <p>@Model.RSVPStatus</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "Guest", new { weddingId = Model.WeddingId })" class="btn btn-secondary">Cancel</a>
+</form>

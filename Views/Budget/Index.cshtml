@@ -1,0 +1,33 @@
+﻿@model List<DreamDay.Models.BudgetItem>
+
+@{
+    ViewData["Title"] = "Budget Items";
+}
+
+<h3>Budget Items</h3>
+<a href="@Url.Action("Create", "Budget", new { weddingId = ViewBag.WeddingId })" class="btn btn-primary mb-3">Add New Budget Item</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Estimated Cost</th>
+            <th>Actual Cost</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Category</td>
+                <td>@item.EstimatedCost</td>
+                <td>@item.ActualCost</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Budget", new { id = item.Id, weddingId = ViewBag.WeddingId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "Budget", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DreamDay.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250503062449_SeedVendors")]
-    partial class SeedVendors
+    [Migration("20250505070506_AddMigrationwithcleaning")]
+    partial class AddMigrationwithcleaning
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,32 +235,6 @@ namespace DreamDay.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vendors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "Florist",
-                            Description = "Premium floral arrangements",
-                            Name = "Elegant Events Florist",
-                            PriceRange = 1500m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "Photographer",
-                            Description = "Wedding photography and videography",
-                            Name = "Moments Photography",
-                            PriceRange = 3000m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = "Caterer",
-                            Description = "Luxury wedding catering services",
-                            Name = "Gourmet Bites Catering",
-                            PriceRange = 5000m
-                        });
                 });
 
             modelBuilder.Entity("DreamDay.Models.Wedding", b =>
@@ -278,13 +252,22 @@ namespace DreamDay.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PlannerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Venue")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CoupleId");
+
+                    b.HasIndex("PlannerId");
 
                     b.ToTable("Weddings");
                 });
@@ -426,6 +409,21 @@ namespace DreamDay.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("VendorWedding", b =>
+                {
+                    b.Property<int>("VendorsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeddingsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VendorsId", "WeddingsId");
+
+                    b.HasIndex("WeddingsId");
+
+                    b.ToTable("WeddingVendors", (string)null);
+                });
+
             modelBuilder.Entity("DreamDay.Models.BudgetItem", b =>
                 {
                     b.HasOne("DreamDay.Models.Wedding", "Wedding")
@@ -473,12 +471,19 @@ namespace DreamDay.Migrations
             modelBuilder.Entity("DreamDay.Models.Wedding", b =>
                 {
                     b.HasOne("DreamDay.Models.ApplicationUser", "Couple")
-                        .WithMany("Weddings")
+                        .WithMany("WeddingsAsCouple")
                         .HasForeignKey("CoupleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DreamDay.Models.ApplicationUser", "Planner")
+                        .WithMany("WeddingsAsPlanner")
+                        .HasForeignKey("PlannerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Couple");
+
+                    b.Navigation("Planner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -532,9 +537,26 @@ namespace DreamDay.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("VendorWedding", b =>
+                {
+                    b.HasOne("DreamDay.Models.Vendor", null)
+                        .WithMany()
+                        .HasForeignKey("VendorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DreamDay.Models.Wedding", null)
+                        .WithMany()
+                        .HasForeignKey("WeddingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DreamDay.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Weddings");
+                    b.Navigation("WeddingsAsCouple");
+
+                    b.Navigation("WeddingsAsPlanner");
                 });
 
             modelBuilder.Entity("DreamDay.Models.Wedding", b =>

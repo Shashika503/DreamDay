@@ -1,0 +1,19 @@
+﻿@model DreamDay.Models.BudgetItem
+
+@{
+    ViewData["Title"] = "Delete Budget Item";
+}
+
+<h3>Are you sure you want to delete this budget item?</h3>
+
+<div>
+    <h5>@Model.Category</h5>
+    <p>Estimated Cost: @Model.EstimatedCost</p>
+    <p>Actual Cost: @Model.ActualCost</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "Budget", new { weddingId = Model.WeddingId })" class="btn btn-secondary">Cancel</a>
+</form>

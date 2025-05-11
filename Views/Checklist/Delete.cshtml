@@ -1,0 +1,19 @@
+﻿@model DreamDay.Models.ChecklistItem
+
+@{
+    ViewData["Title"] = "Delete Checklist Item";
+}
+
+<h3>Are you sure you want to delete this checklist item?</h3>
+
+<div>
+    <h5>@Model.Task</h5>
+    <p>Due Date: @Model.DueDate?.ToString("MMMM dd, yyyy")</p>
+    <p>Completed: @(Model.IsCompleted ? "Yes" : "No")</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "Checklist", new { weddingId = Model.WeddingId })" class="btn btn-secondary">Cancel</a>
+</form>

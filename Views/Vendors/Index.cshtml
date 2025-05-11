@@ -1,0 +1,22 @@
+﻿@model List<DreamDay.Models.Vendor>
+
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+<h3>Wedding Vendors</h3>
+
+<div class="row">
+    @foreach (var vendor in Model)
+    {
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@vendor.Name</h5>
+                    <p class="card-text">@vendor.Category</p>
+                    <p class="card-text">@vendor.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

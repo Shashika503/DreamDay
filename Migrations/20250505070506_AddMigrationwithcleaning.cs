@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DreamDay.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddMigrationwithcleaning : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -181,7 +181,9 @@ namespace DreamDay.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CoupleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Venue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoupleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PlannerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,7 +193,13 @@ namespace DreamDay.Migrations
                         column: x => x.CoupleId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Weddings_AspNetUsers_PlannerId",
+                        column: x => x.PlannerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,6 +290,30 @@ namespace DreamDay.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WeddingVendors",
+                columns: table => new
+                {
+                    VendorsId = table.Column<int>(type: "int", nullable: false),
+                    WeddingsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeddingVendors", x => new { x.VendorsId, x.WeddingsId });
+                    table.ForeignKey(
+                        name: "FK_WeddingVendors_Vendors_VendorsId",
+                        column: x => x.VendorsId,
+                        principalTable: "Vendors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WeddingVendors_Weddings_WeddingsId",
+                        column: x => x.WeddingsId,
+                        principalTable: "Weddings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -345,6 +377,16 @@ namespace DreamDay.Migrations
                 name: "IX_Weddings_CoupleId",
                 table: "Weddings",
                 column: "CoupleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Weddings_PlannerId",
+                table: "Weddings",
+                column: "PlannerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeddingVendors_WeddingsId",
+                table: "WeddingVendors",
+                column: "WeddingsId");
         }
 
         /// <inheritdoc />
@@ -378,10 +420,13 @@ namespace DreamDay.Migrations
                 name: "TimelineEvents");
 
             migrationBuilder.DropTable(
-                name: "Vendors");
+                name: "WeddingVendors");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Vendors");
 
             migrationBuilder.DropTable(
                 name: "Weddings");

@@ -1,0 +1,43 @@
+@model List<DreamDay.Models.TimelineEvent>
+
+@{
+    ViewData["Title"] = "Timeline Events";
+}
+
+<h3>Timeline Events</h3>
+<a href="@Url.Action("Create", "Timeline", new { weddingId = ViewBag.WeddingId })" class="btn btn-primary mb-3">Add New Event</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>
+                    @if (item.Time.HasValue)
+                    {
+                        @item.Time.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                    }
+                    else
+                    {
+                        <span>No Time Set</span>
+                    }
+                </td>
+                <td>@item.Location</td>
+
+                <td>
+                    <a href="@Url.Action("Edit", "Timeline", new { id = item.Id, weddingId = ViewBag.WeddingId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "Timeline", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

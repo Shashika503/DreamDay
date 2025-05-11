@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DreamDay.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250504043231_FixWeddingUserRelationships")]
-    partial class FixWeddingUserRelationships
+    [Migration("20250507044427_updateweddingmigration")]
+    partial class updateweddingmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -256,10 +256,6 @@ namespace DreamDay.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Venue")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

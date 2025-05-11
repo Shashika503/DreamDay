@@ -1,0 +1,32 @@
+﻿@model DreamDay.Models.ChecklistItem
+
+@{
+    ViewData["Title"] = "Create Checklist Item";
+}
+
+<h3>Create New Checklist Item</h3>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Task" class="form-label"></label>
+        <input asp-for="Task" class="form-control" />
+        <span asp-validation-for="Task" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label"></label>
+        <input asp-for="DueDate" class="form-control" type="date" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IsCompleted" class="form-label"></label>
+        <input asp-for="IsCompleted" type="checkbox" class="form-check-input" />
+        <span asp-validation-for="IsCompleted" class="text-danger"></span>
+    </div>
+
+    <!-- Hidden WeddingId -->
+    <input type="hidden" asp-for="WeddingId" value="@ViewBag.WeddingId" />
+
+    <button type="submit" class="btn btn-primary">Create Checklist Item</button>
+</form>

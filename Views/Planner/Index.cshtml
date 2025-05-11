@@ -1,0 +1,21 @@
+﻿@model List<DreamDay.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Wedding Planners";
+}
+
+<h3>Wedding Planners</h3>
+
+<div class="row">
+    @foreach (var planner in Model)
+    {
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@planner.FullName</h5>
+                    <p><strong>Contact:</strong> @planner.Email</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

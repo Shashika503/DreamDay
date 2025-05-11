@@ -1,0 +1,28 @@
+@model DreamDay.Models.TimelineEvent
+
+@{
+    ViewData["Title"] = "Delete Timeline Event";
+}
+
+<h3>Are you sure you want to delete this timeline event?</h3>
+
+<div>
+    <h5>@Model.Title</h5>
+    <p>
+        @if (Model.Time.HasValue)
+        {
+            @Model.Time.Value.ToString("MMMM dd, yyyy hh:mm tt")
+        }
+        else
+        {
+            <span>No time set</span>  <!-- This message will show if Time is null -->
+        }
+    </p>
+    <p>@Model.Location</p>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "Timeline", new { weddingId = Model.WeddingId })" class="btn btn-secondary">Cancel</a>
+</form>

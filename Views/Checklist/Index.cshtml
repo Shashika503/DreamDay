@@ -1,0 +1,42 @@
+﻿@model List<DreamDay.Models.ChecklistItem>
+
+@{
+    ViewData["Title"] = "Checklist Items";
+}
+
+<h3>Checklist Items</h3>
+<a href="@Url.Action("Create", "Checklist", new { weddingId = ViewBag.WeddingId })" class="btn btn-primary mb-3">Add New Checklist Item</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Is Completed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Task</td>
+                <td>@item.DueDate?.ToString("MMMM dd, yyyy")</td>
+                <td>
+                    @if (item.IsCompleted)
+                    {
+                        <span class="text-success">Completed</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Not Completed</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Checklist", new { id = item.Id, weddingId = ViewBag.WeddingId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "Checklist", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
