@@ -1,5 +1,10 @@
-using DreamDay.Models;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DreamDay.Models;
+using Microsoft.AspNetCore.Identity;
+
+namespace DreamDay.ViewModels;
 
 public class WeddingCreateViewModel
 {
