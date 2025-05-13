@@ -26,11 +26,25 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarMain">
+                 <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Couple" asp-action="Dashboard">Weddings</a>
-                        </li>
+                        <!-- Show 'Weddings' link if the user is a couple -->
+                        @if (User.IsInRole("Couple"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Couple" asp-action="Dashboard">Weddings</a>
+                            </li>
+                        }
+
+                        <!-- Show 'Planners' link if the user is a planner -->
+                        @if (User.IsInRole("Planner"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Dashboard">Weddings</a>
+                            </li>
+                        }
+
+                        <!-- Common Links -->
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">Planners</a>
                         </li>
