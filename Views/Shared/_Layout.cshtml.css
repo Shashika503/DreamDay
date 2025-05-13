@@ -39,10 +39,19 @@ button.accept-policy {
   line-height: inherit;
 }
 
+/* Ensure the footer is always at the bottom of the screen */
 .footer {
-  position: absolute;
+  position: fixed;  /* Fixed at the bottom of the page */
   bottom: 0;
   width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+  background-color: #343a40; /* Dark background color */
+  text-align: center;
+  padding: 15px 0; /* Space around the footer */
+  color: white;
+  z-index: 10; /* Ensure it stays on top of other elements */
+}
+
+/* Make sure the body has enough space at the bottom for the footer */
+body {
+  padding-bottom: 70px; /* Adjust this value to match the height of the footer */
 }

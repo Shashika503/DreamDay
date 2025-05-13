@@ -36,7 +36,7 @@ namespace DreamDay.Controllers
                 return NotFound();
             }
 
-            if (wedding.PlannerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            if (User.IsInRole("Planner") && wedding.PlannerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
 {
     return Unauthorized(); // Ensure only the assigned planner can access the wedding details
 }
