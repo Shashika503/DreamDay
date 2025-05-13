@@ -8,5 +8,5 @@ public class ChecklistItem
     public DateTime? DueDate { get; set; }
 
     public int WeddingId { get; set; }
-    public Wedding Wedding { get; set; }
+    public Wedding? Wedding { get; set; }
 }

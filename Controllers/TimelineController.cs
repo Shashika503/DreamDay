@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using DreamDay.Data;
 using DreamDay.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DreamDay.Controllers
 {
-    [Authorize(Roles = "Couple")]
+    [Authorize(Roles = "Couple, Planner")]
     public class TimelineController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,7 +29,13 @@ namespace DreamDay.Controllers
         return NotFound();
     }
 
-            
+            if (wedding.PlannerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return Unauthorized(); // Ensure only the assigned planner can access the wedding details
+            }
+
+
+
             ViewBag.WeddingId = weddingId;
 
             // Convert the HashSet to a List before passing to the view

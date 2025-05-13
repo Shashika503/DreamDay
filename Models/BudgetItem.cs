@@ -11,5 +11,5 @@ public class BudgetItem
     public decimal ActualCost { get; set; }
 
     public int WeddingId { get; set; }
-    public Wedding Wedding { get; set; }
+    public Wedding? Wedding { get; set; }
 }

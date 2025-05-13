@@ -128,7 +128,7 @@ namespace DreamDay.Areas.Identity.Pages.Account
                 return RedirectToAction("Dashboard", "Couple");
 
             if (roles.Contains("Planner"))
-                return RedirectToAction("PlannerDashboard", "Planner");
+                return RedirectToAction("Dashboard", "Planner");
 
             if (roles.Contains("Admin"))
                 return RedirectToAction("Index", "Admin");

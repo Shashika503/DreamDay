@@ -4,18 +4,25 @@ using DreamDay.Data;
 using DreamDay.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace DreamDay.Controllers
+
+
 {
-    [Authorize(Roles = "Couple")]
+    [Authorize(Roles = "Couple, Planner")]
     public class BudgetController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BudgetController(ApplicationDbContext context)
+        public BudgetController(ApplicationDbContext context , UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+       
 
         // GET: Budget for a specific Wedding
         public async Task<IActionResult> Index(int weddingId)
@@ -28,6 +35,12 @@ namespace DreamDay.Controllers
             {
                 return NotFound();
             }
+
+            if (wedding.PlannerId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+{
+    return Unauthorized(); // Ensure only the assigned planner can access the wedding details
+}
+
 
             // Convert HashSet to List before passing to the view
             var budgetItems = wedding.BudgetItems.ToList();
