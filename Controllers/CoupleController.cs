@@ -10,7 +10,7 @@ using DreamDay.ViewModels;
 
 namespace DreamDay.Controllers;
 
-[Authorize(Roles = "Couple")]
+[Authorize(Roles = "Couple , Planner")]
 public class CoupleController : Controller
 {
     private readonly ApplicationDbContext _context;
