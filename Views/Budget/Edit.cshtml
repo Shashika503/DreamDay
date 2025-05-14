@@ -4,36 +4,89 @@
     ViewData["Title"] = "Edit Budget Item";
 }
 
-<h3>Edit Budget Item</h3>
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="mb-4 text-center">Edit Budget Item</h3>
 
-<form asp-action="Edit" method="post">
-    <div class="mb-3">
-        <label asp-for="Category" class="form-label"></label>
-        <select asp-for="Category" class="form-control">
-            <option value="">Select Category</option>
-            @foreach (var category in ViewBag.Categories as SelectList)
-            {
-                <option value="@category.Text">@category.Text</option>
-            }
-        </select>
-        <span asp-validation-for="Category" class="text-danger"></span>
+        <form asp-action="Edit" method="post">
+            <!-- Category Selection -->
+            <div class="mb-4">
+                <label asp-for="Category" class="form-label fw-bold">Category</label>
+                <select asp-for="Category" class="form-control form-select-lg" aria-label="Select Budget Category">
+                    <option value="">Select Category</option>
+                    @foreach (var category in ViewBag.Categories as SelectList)
+                    {
+                        var isSelected = category.Text == Model.Category ? "selected" : "";
+                        <option value="@category.Text" selected="@isSelected">@category.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+
+            <!-- Estimated Cost -->
+            <div class="mb-4">
+                <label asp-for="EstimatedCost" class="form-label fw-bold">Estimated Cost</label>
+                <input asp-for="EstimatedCost" class="form-control form-control-lg" type="number" step="0.01" placeholder="Enter Estimated Cost" />
+                <span asp-validation-for="EstimatedCost" class="text-danger"></span>
+            </div>
+
+            <!-- Actual Cost -->
+            <div class="mb-4">
+                <label asp-for="ActualCost" class="form-label fw-bold">Actual Cost</label>
+                <input asp-for="ActualCost" class="form-control form-control-lg" type="number" step="0.01" placeholder="Enter Actual Cost" />
+                <span asp-validation-for="ActualCost" class="text-danger"></span>
+            </div>
+
+            <!-- Hidden WeddingId -->
+            <input type="hidden" asp-for="WeddingId" value="@ViewBag.WeddingId" />
+
+            <!-- Save Changes Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg w-100">Save Changes</button>
+            </div>
+        </form>
     </div>
+</div>
 
+@section Styles {
+    <style>
+        .card {
+            border-radius: 12px;
+        }
 
-    <div class="mb-3">
-        <label asp-for="EstimatedCost" class="form-label"></label>
-        <input asp-for="EstimatedCost" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="EstimatedCost" class="text-danger"></span>
-    </div>
+        .form-label {
+            font-weight: 600;
+        }
 
-    <div class="mb-3">
-        <label asp-for="ActualCost" class="form-label"></label>
-        <input asp-for="ActualCost" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="ActualCost" class="text-danger"></span>
-    </div>
+        .form-control-lg {
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
 
-    <!-- Hidden WeddingId -->
-    <input type="hidden" asp-for="WeddingId" value="@ViewBag.WeddingId" />
+        .form-select-lg {
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

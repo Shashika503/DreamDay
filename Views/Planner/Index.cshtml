@@ -4,18 +4,83 @@
     ViewData["Title"] = "Wedding Planners";
 }
 
-<h3>Wedding Planners</h3>
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h3 class="text-center mb-4">Wedding Planners</h3>
 
-<div class="row">
-    @foreach (var planner in Model)
-    {
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">@planner.FullName</h5>
-                    <p><strong>Contact:</strong> @planner.Email</p>
+    <!-- Wedding Planners Cards -->
+    <div class="row g-4">
+        @foreach (var planner in Model)
+        {
+            <div class="col-md-4">
+                <div class="card shadow-lg rounded-3 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-3">@planner.FullName</h5>
+                        <p class="card-text text-center mb-2"><strong>Contact:</strong> @planner.Email</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary rounded-pill">View Profile</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 30px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        /* Hover effect for the cards */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1100px;
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .card {
+                margin-top: 10px;
+            }
+        }
+    </style>
+}

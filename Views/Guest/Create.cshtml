@@ -4,28 +4,96 @@
     ViewData["Title"] = "Add New Guest";
 }
 
-<h3>Add New Guest</h3>
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <!-- Form Title -->
+        <h3 class="text-center mb-4">Add New Guest</h3>
 
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <!-- Add Guest Form -->
+        <form asp-action="Create" method="post">
+            <!-- Name Field -->
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label fw-bold">Name</label>
+                <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter guest name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label fw-bold">Email</label>
+                <input asp-for="Email" class="form-control form-control-lg" placeholder="Enter guest email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- RSVP Status Field -->
+            <div class="mb-4">
+                <label asp-for="RSVPStatus" class="form-label fw-bold">RSVP Status</label>
+                <input asp-for="RSVPStatus" class="form-control form-control-lg" placeholder="Enter RSVP status" />
+                <span asp-validation-for="RSVPStatus" class="text-danger"></span>
+            </div>
+
+            <!-- Hidden WeddingId -->
+            <input type="hidden" asp-for="WeddingId" value="@ViewBag.WeddingId" />
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Add Guest</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+@section Styles {
+    <style>
+        .card {
+            border-radius: 12px;
+        }
 
-    <div class="mb-3">
-        <label asp-for="RSVPStatus" class="form-label"></label>
-        <input asp-for="RSVPStatus" class="form-control" />
-        <span asp-validation-for="RSVPStatus" class="text-danger"></span>
-    </div>
+        .form-label {
+            font-weight: 600;
+        }
 
-    <input type="hidden" asp-for="WeddingId" value="@ViewBag.WeddingId" />
+        .form-control-lg {
+            font-size: 1.1rem;
+            padding: 12px;
+            border-radius: 25px;
+        }
 
-    <button type="submit" class="btn btn-primary">Add Guest</button>
-</form>
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .d-grid {
+            display: grid;
+        }
+
+        .gap-2 {
+            gap: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 576px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

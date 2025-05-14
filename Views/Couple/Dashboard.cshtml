@@ -4,33 +4,50 @@
     ViewData["Title"] = "Couple Dashboard";
 }
 
-@if (Model == null)
-{
-    <div class="text-center my-5">
-        <h3>You haven't created a wedding yet</h3>
-        <a class="btn btn-success mt-3" asp-action="CreateWedding">Create Wedding</a>
-    </div>
-}
-else
-{
-    <div class="card mt-4 shadow p-4">
-        <h2 class="mb-3">@Model.Title (@Model.Date.ToString("MMMM dd, yyyy"))</h2>
-        <p><strong>Assigned Planner:</strong> @Model.Planner?.FullName</p>
-
-        <h5 class="mt-4">Vendors:</h5>
-        <ul>
-            @foreach (var vendor in Model.Vendors)
-            {
-                <li>@vendor.Name – @vendor.Category</li>
-            }
-        </ul>
-
-        <hr />
-        <div class="mt-3">
-            <a class="btn btn-outline-primary" asp-controller="Checklist" asp-action="Index" asp-route-weddingId="@Model.Id">Checklist</a>
-            <a class="btn btn-outline-secondary" asp-controller="Budget" asp-action="Index" asp-route-weddingId="@Model.Id">Budget</a>
-            <a class="btn btn-outline-info" asp-controller="Timeline" asp-action="Index" asp-route-weddingId="@Model.Id">Timeline</a>
-            <a class="btn btn-outline-success" asp-controller="Guest" asp-action="Index" asp-route-weddingId="@Model.Id">Guest List</a>
+<div class="container mt-5">
+    @if (Model == null)
+    {
+        <div class="text-center my-5">
+            <h3 class="mb-4">You haven't created a wedding yet</h3>
+            <a class="btn btn-success btn-lg" asp-action="CreateWedding">Create Wedding</a>
         </div>
-    </div>
-}
+    }
+    else
+    {
+        <div class="card shadow-lg p-4">
+            <!-- Wedding Title and Date -->
+            <h2 class="mb-4">@Model.Title</h2>
+            <p class="text-muted">@Model.Date.ToString("MMMM dd, yyyy")</p>
+            <p><strong>Assigned Planner:</strong> @Model.Planner?.FullName</p>
+
+            <!-- Vendors List -->
+            <div class="mt-4">
+                <h5 class="mb-3">Vendors</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var vendor in Model.Vendors)
+                    {
+                        <li class="list-group-item">
+                            <strong>@vendor.Name</strong> – @vendor.Category
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-4 d-flex justify-content-start gap-3">
+                <a class="btn btn-outline-primary btn-lg" asp-controller="Checklist" asp-action="Index" asp-route-weddingId="@Model.Id">
+                    <i class="fas fa-check-circle"></i> Manage Checklist
+                </a>
+                <a class="btn btn-outline-secondary btn-lg" asp-controller="Budget" asp-action="Index" asp-route-weddingId="@Model.Id">
+                    <i class="fas fa-wallet"></i> Manage Budget
+                </a>
+                <a class="btn btn-outline-info btn-lg" asp-controller="Timeline" asp-action="Index" asp-route-weddingId="@Model.Id">
+                    <i class="fas fa-clock"></i> Manage Timeline
+                </a>
+                <a class="btn btn-outline-success btn-lg" asp-controller="Guest" asp-action="Index" asp-route-weddingId="@Model.Id">
+                    <i class="fas fa-users"></i> Manage Guest List
+                </a>
+            </div>
+        </div>
+    }
+</div>

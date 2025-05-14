@@ -9,16 +9,15 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css" />
 
-
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DreamDay.styles.css" asp-append-version="true" />
 
-     @RenderSection("Styles", required: false)
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- Fixed Navbar -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">DreamDay</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain"
@@ -65,23 +64,22 @@
     </header>
 
     <!-- Main Content -->
-    <main role="main" class="flex-shrink-4">
+    <main role="main" class="flex-shrink-4" style="margin-top: 80px;"> <!-- Adjusted margin for the fixed navbar -->
         @RenderBody()
     </main>
 
     <!-- Footer -->
-<footer class="footer bg-dark text-white">
-    <div class="container">
-        <div class="mb-3">
-            <a href="https://www.facebook.com" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com" class="text-white me-2" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.twitter.com" class="text-white" target="_blank"><i class="fab fa-twitter"></i></a>
+    <footer class="footer bg-dark text-white">
+        <div class="container">
+            <div class="mb-3">
+                <a href="https://www.facebook.com" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com" class="text-white me-2" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.twitter.com" class="text-white" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="mb-1">Follow us on social media for the latest updates!</p>
+            <p class="mb-0">&copy; 2025 DreamDay. All rights reserved.</p>
         </div>
-        <p class="mb-1">Follow us on social media for the latest updates!</p>
-        <p class="mb-0">&copy; 2025 DreamDay. All rights reserved.</p>
-    </div>
-</footer>
-
+    </footer>
 
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

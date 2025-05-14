@@ -2,20 +2,84 @@
     ViewData["Title"] = "About Us";
 }
 
-<h3>About DreamDay</h3>
+<div class="container mt-5">
+    <div class="card shadow-lg p-5">
+        <h3 class="text-center mb-4">About DreamDay</h3>
 
-<p>Welcome to DreamDay, the premier wedding planning service! We specialize in helping couples organize every detail of their special day, from finding the perfect venue to choosing the best vendors.</p>
+        <p class="text-center mb-4">Welcome to DreamDay, the premier wedding planning service! We specialize in helping couples organize every detail of their special day, from finding the perfect venue to choosing the best vendors.</p>
 
-<h4>Our Mission</h4>
-<p>Our mission is to make the wedding planning process seamless and stress-free for couples, so they can focus on enjoying their big day.</p>
+        <div class="mb-5">
+            <h4 class="fw-bold mb-3">Our Mission</h4>
+            <p>Our mission is to make the wedding planning process seamless and stress-free for couples, so they can focus on enjoying their big day.</p>
+        </div>
 
-<h4>Our Services</h4>
-<ul>
-    <li>Venue Selection</li>
-    <li>Vendor Coordination</li>
-    <li>Custom Wedding Planning</li>
-    <li>Wedding Timeline Management</li>
-</ul>
+        <div class="mb-5">
+            <h4 class="fw-bold mb-3">Our Services</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check-circle text-success me-3"></i> Venue Selection
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check-circle text-success me-3"></i> Vendor Coordination
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check-circle text-success me-3"></i> Custom Wedding Planning
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check-circle text-success me-3"></i> Wedding Timeline Management
+                </li>
+            </ul>
+        </div>
 
-<h4>Meet the Team</h4>
-<p>Our team of experienced wedding planners is here to help you every step of the way. We work closely with you to understand your vision and make it a reality.</p>
+        <div>
+            <h4 class="fw-bold mb-3">Meet the Team</h4>
+            <p>Our team of experienced wedding planners is here to help you every step of the way. We work closely with you to understand your vision and make it a reality.</p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border-radius: 15px;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+        .list-group-item {
+            font-size: 1.1rem;
+            padding: 12px 20px;
+        }
+
+        .list-group-item i {
+            font-size: 1.25rem;
+        }
+
+        .fw-bold {
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .text-success {
+            color: #28a745 !important;
+        }
+
+        /* Extra spacing for small screens */
+        @@media (max-width: 576px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -9,8 +9,15 @@
     <style>
         .card-selectable {
             cursor: pointer;
-            transition: 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 2px solid transparent;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .card-selectable:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .card-selectable.selected {
@@ -20,6 +27,69 @@
 
         .form-check-input {
             display: none;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        .form-check-input:checked + .form-check-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .small-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .gap-3 {
+            gap: 1rem;
+        }
+
+        .validation-msg {
+            font-size: 0.875rem;
+            color: #dc3545;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
         }
     </style>
 }
