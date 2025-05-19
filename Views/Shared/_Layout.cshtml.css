@@ -1,57 +1,25 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿html, body {
+    height: 100%;
+    margin: 0;
 }
 
-a {
-  color: #0077cc;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Ensure the footer is always at the bottom of the screen */
-.footer {
-  position: fixed;  /* Fixed at the bottom of the page */
-  bottom: 0;
-  width: 100%;
-  background-color: #343a40; /* Dark background color */
-  text-align: center;
-  padding: 15px 0; /* Space around the footer */
-  color: white;
-  z-index: 10; /* Ensure it stays on top of other elements */
-}
-
-/* Make sure the body has enough space at the bottom for the footer */
 body {
-  padding-bottom: 70px; /* Adjust this value to match the height of the footer */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* This makes the main content take the available space */
+    padding-bottom: 60px; /* Space for the footer */
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
 }

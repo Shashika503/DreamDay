@@ -6,9 +6,7 @@
     <title>@ViewData["Title"] - DreamDay</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css" />
-
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DreamDay.styles.css" asp-append-version="true" />
 
@@ -25,9 +23,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                 <div class="collapse navbar-collapse" id="navbarMain">
+                <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <!-- Show 'Weddings' link if the user is a couple -->
                         @if (User.IsInRole("Couple"))
                         {
                             <li class="nav-item">
@@ -35,7 +32,6 @@
                             </li>
                         }
 
-                        <!-- Show 'Planners' link if the user is a planner -->
                         @if (User.IsInRole("Planner"))
                         {
                             <li class="nav-item">
@@ -43,7 +39,6 @@
                             </li>
                         }
 
-                        <!-- Common Links -->
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">Planners</a>
                         </li>

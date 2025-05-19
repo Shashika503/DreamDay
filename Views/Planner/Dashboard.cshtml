@@ -33,7 +33,8 @@
                             <a href="@Url.Action("Index", "Guest", new { weddingId = wedding.Id })" class="btn btn-success btn-lg rounded-pill">
                                 <i class="fas fa-users me-2"></i> Manage Guest List
                             </a>
-                            <a href="@Url.Action("Index", "Vendors", new { weddingId = wedding.Id })" class="btn btn-warning btn-lg rounded-pill">
+                           <a href="@Url.Action("EditWedding", "Couple", new { weddingId = wedding.Id })" class="btn btn-warning btn-lg rounded-pill">
+
                                 <i class="fas fa-cogs me-2"></i> Manage Vendors
                             </a>
                         </div>

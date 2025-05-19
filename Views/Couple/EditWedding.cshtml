@@ -1,0 +1,123 @@
+@model DreamDay.ViewModels.WeddingCreateViewModel
+
+@{
+    ViewData["Title"] = "Edit Wedding";
+}
+
+@section Styles {
+    <style>
+        .card-selectable {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .card-selectable:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-selectable.selected {
+            border-color: #0d6efd;
+            background-color: #e7f1ff;
+        }
+
+        .form-check-input {
+            display: none;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="mb-4">Edit Wedding</h2>
+        <form asp-action="EditWedding" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Date" class="form-label"></label>
+                <input asp-for="Date" class="form-control" type="date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <!-- Vendor Card Selection -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Select Vendors</label>
+                <div class="row g-3">
+                    @foreach (var vendor in Model.AvailableVendors)
+                    {
+                        <div class="col-md-4">
+                            <label class="card card-selectable h-100 shadow-sm p-3 @(Model.SelectedVendorIds.Contains(vendor.Id) ? "selected" : "")" for="vendor-@vendor.Id">
+                                <h5 class="card-title">@vendor.Name</h5>
+                                <p class="text-muted mb-1">@vendor.Category</p>
+                                <p class="small">@vendor.Description</p>
+                                <input type="checkbox" id="vendor-@vendor.Id" name="SelectedVendorIds" value="@vendor.Id"
+                                    class="form-check-input vendor-check" @(Model.SelectedVendorIds.Contains(vendor.Id) ? "checked" : "") />
+                            </label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="SelectedVendorIds" class="text-danger"></span>
+            </div>
+
+            <!-- Planner selection (readonly display if not needed to change) -->
+            <div class="mb-3">
+                <label class="form-label">Current Planner</label>
+                <input type="text" class="form-control" value="@(Model.AvailablePlanners.FirstOrDefault(p => p.Id == Model.PlannerId)?.FullName ?? "Not Assigned")" disabled />
+            </div>
+            <input type="hidden" asp-for="PlannerId" />
+
+            <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.querySelectorAll('.vendor-check').forEach(input => {
+            input.addEventListener('change', () => {
+                input.closest('.card-selectable').classList.toggle('selected', input.checked);
+            });
+        });
+    </script>
+}

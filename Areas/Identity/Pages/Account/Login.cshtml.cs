@@ -131,7 +131,7 @@ namespace DreamDay.Areas.Identity.Pages.Account
                 return RedirectToAction("Dashboard", "Planner");
 
             if (roles.Contains("Admin"))
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Dashboard", "Admin");
 
             return LocalRedirect(returnUrl); // fallback
         }

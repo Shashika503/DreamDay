@@ -28,18 +28,15 @@ var app = builder.Build();
 
 
 
-// var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// try
-// {
-//     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-//     await DbInitializer.SeedRolesAsync(roleManager);
-// }
-// catch (Exception ex)
-// {
-//     // Log or handle seeding exception
-// }
+// Ensure the Admin role and Admin user are seeded
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+    await SeedData.Initialize(services, userManager, roleManager);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -34,82 +34,137 @@ public class CoupleController : Controller
     }
 
     [HttpGet]
-public async Task<IActionResult> CreateWedding()
-{
-    var planners = await _userManager.GetUsersInRoleAsync("Planner");
-    var vendors = await _context.Vendors.ToListAsync();
-
-    var viewModel = new WeddingCreateViewModel
+    public async Task<IActionResult> EditWedding(int weddingId)
     {
-        AvailablePlanners = planners.ToList(),
-        AvailableVendors = vendors
-    };
+        var wedding = await _context.Weddings
+            .Include(w => w.Vendors)
+            .Include(w => w.Planner)
+            .FirstOrDefaultAsync(w => w.Id == weddingId);
 
-    return View(viewModel);
-}
+        if (wedding == null)
+            return NotFound();
 
-[HttpPost]
-public async Task<IActionResult> CreateWedding(WeddingCreateViewModel model)
-{
-    if (!ModelState.IsValid)
-    {
-        // Log errors if the model is invalid
-        Debug.WriteLine("❌ ModelState is invalid.");
-        foreach (var entry in ModelState)
+        var model = new WeddingCreateViewModel
         {
-            var key = entry.Key;
-            var errors = entry.Value.Errors;
-            foreach (var error in errors)
-            {
-                Debug.WriteLine($"Error in '{key}': {error.ErrorMessage}");
-            }
+            Id = wedding.Id,
+            Title = wedding.Title,
+            Date = wedding.Date,
+            PlannerId = wedding.PlannerId,
+            SelectedVendorIds = wedding.Vendors.Select(v => v.Id).ToList(),
+            AvailableVendors = await _context.Vendors.ToListAsync(),
+            AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList()
+        };
+
+        return View(model);
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditWedding(WeddingCreateViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            model.AvailableVendors = await _context.Vendors.ToListAsync();
+            model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
+            return View(model);
         }
 
-        // Repopulate necessary data (vendors and planners)
-        model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
-        model.AvailableVendors = await _context.Vendors.ToListAsync();
+        var wedding = await _context.Weddings
+            .Include(w => w.Vendors)
+            .FirstOrDefaultAsync(w => w.Id == model.Id);
 
-        return View(model); // Return form with errors + data
+        if (wedding == null)
+            return NotFound();
+
+        wedding.Title = model.Title;
+        wedding.Date = model.Date ?? wedding.Date;
+        wedding.Vendors = await _context.Vendors
+            .Where(v => model.SelectedVendorIds.Contains(v.Id))
+            .ToListAsync();
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Dashboard", "Planner"); // or "Couple" if shared
     }
 
-    var user = await _userManager.GetUserAsync(User);
 
-    // Log selected data
-    Debug.WriteLine($"✔️ Creating wedding for user: {user.Email}");
-    Debug.WriteLine($"➡️ Title: {model.Title}");
-    Debug.WriteLine($"➡️ Date: {model.Date}");
-    Debug.WriteLine($"➡️ PlannerId: {model.PlannerId}");
-    Debug.WriteLine("➡️ SelectedVendorIds: " + string.Join(", ", model.SelectedVendorIds ?? new List<int>()));
-
-    // Fetch the selected vendors
-    var vendors = await _context.Vendors
-        .Where(v => model.SelectedVendorIds.Contains(v.Id))
-        .ToListAsync();
-
-    if (!vendors.Any())
+    [HttpGet]
+    public async Task<IActionResult> CreateWedding()
     {
-        Debug.WriteLine("⚠️ No vendors selected.");
-        ModelState.AddModelError(string.Empty, "Please select at least one vendor."); // Add a custom error
-        model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
-        model.AvailableVendors = await _context.Vendors.ToListAsync();
-        return View(model); // Return form with error message
+        var planners = await _userManager.GetUsersInRoleAsync("Planner");
+        var vendors = await _context.Vendors.ToListAsync();
+
+        var viewModel = new WeddingCreateViewModel
+        {
+            AvailablePlanners = planners.ToList(),
+            AvailableVendors = vendors
+        };
+
+        return View(viewModel);
     }
 
-    // Create wedding object and save
-    var wedding = new Wedding
+    [HttpPost]
+    public async Task<IActionResult> CreateWedding(WeddingCreateViewModel model)
     {
-        Title = model.Title,
-        Date = model.Date.Value,
-        CoupleId = user.Id,
-        PlannerId = model.PlannerId,
-        Vendors = vendors
-    };
+        if (!ModelState.IsValid)
+        {
+            // Log errors if the model is invalid
+            Debug.WriteLine("❌ ModelState is invalid.");
+            foreach (var entry in ModelState)
+            {
+                var key = entry.Key;
+                var errors = entry.Value.Errors;
+                foreach (var error in errors)
+                {
+                    Debug.WriteLine($"Error in '{key}': {error.ErrorMessage}");
+                }
+            }
 
-    _context.Weddings.Add(wedding);
-    await _context.SaveChangesAsync();
+            // Repopulate necessary data (vendors and planners)
+            model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
+            model.AvailableVendors = await _context.Vendors.ToListAsync();
 
-    Debug.WriteLine("✅ Wedding saved successfully.");
-    return RedirectToAction("Dashboard");
-}
+            return View(model); // Return form with errors + data
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+
+        // Log selected data
+        Debug.WriteLine($"✔️ Creating wedding for user: {user.Email}");
+        Debug.WriteLine($"➡️ Title: {model.Title}");
+        Debug.WriteLine($"➡️ Date: {model.Date}");
+        Debug.WriteLine($"➡️ PlannerId: {model.PlannerId}");
+        Debug.WriteLine("➡️ SelectedVendorIds: " + string.Join(", ", model.SelectedVendorIds ?? new List<int>()));
+
+        // Fetch the selected vendors
+        var vendors = await _context.Vendors
+            .Where(v => model.SelectedVendorIds.Contains(v.Id))
+            .ToListAsync();
+
+        if (!vendors.Any())
+        {
+            Debug.WriteLine("⚠️ No vendors selected.");
+            ModelState.AddModelError(string.Empty, "Please select at least one vendor."); // Add a custom error
+            model.AvailablePlanners = (await _userManager.GetUsersInRoleAsync("Planner")).ToList();
+            model.AvailableVendors = await _context.Vendors.ToListAsync();
+            return View(model); // Return form with error message
+        }
+
+        // Create wedding object and save
+        var wedding = new Wedding
+        {
+            Title = model.Title,
+            Date = model.Date.Value,
+            CoupleId = user.Id,
+            PlannerId = model.PlannerId,
+            Vendors = vendors
+        };
+
+        _context.Weddings.Add(wedding);
+        await _context.SaveChangesAsync();
+
+        Debug.WriteLine("✅ Wedding saved successfully.");
+        return RedirectToAction("Dashboard");
+    }
 
 }

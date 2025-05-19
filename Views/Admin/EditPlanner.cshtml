@@ -1,0 +1,23 @@
+@model DreamDay.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit Planner";
+}
+
+<h3>Edit Planner</h3>
+
+<form asp-action="EditPlanner" method="post">
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label">Full Name</label>
+        <input asp-for="FullName" class="form-control" required />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" type="email" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

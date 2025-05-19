@@ -1,0 +1,18 @@
+@model DreamDay.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Delete Planner";
+}
+
+<h3>Are you sure you want to delete this planner?</h3>
+
+<div>
+    <h5>@Model.FullName</h5>
+    <p>@Model.Email</p>
+</div>
+
+<form asp-action="DeletePlannerConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("IndexPlanners", "Admin")" class="btn btn-secondary">Cancel</a>
+</form>
