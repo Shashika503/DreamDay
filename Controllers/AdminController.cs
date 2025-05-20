@@ -139,7 +139,10 @@ namespace DreamDay.Controllers
             ViewBag.NumberOfVendors = numberOfVendors;
             ViewBag.NumberOfPlanners = numberOfPlanners.Count;
             ViewBag.TotalGuests = totalGuests;
-            ViewBag.AverageGuestsPerWedding = numberOfWeddings > 0 ? totalGuests / numberOfWeddings : 0;
+           ViewBag.AverageGuestsPerWedding = numberOfWeddings > 0 
+    ? (double)totalGuests / numberOfWeddings 
+    : 0;
+
 
             return View();
         }
