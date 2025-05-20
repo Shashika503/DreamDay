@@ -4,41 +4,64 @@
     ViewData["Title"] = "Planners";
 }
 
-<h3>Planners</h3>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Planners</h2>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("CreatePlanner", "Admin")" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Add New Planner
+            </a>
+        }
+    </div>
 
-@if (User.IsInRole("Admin"))
-{
-    <a href="@Url.Action("CreatePlanner", "Admin")" class="btn btn-primary mb-3">Add New Planner</a>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="row g-4">
         @foreach (var planner in Model)
         {
-            <tr>
-                <td>@planner.FullName</td>
-                <td>@planner.Email</td>
-                <td>Planner</td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a href="@Url.Action("EditPlanner", "Admin", new { id = planner.Id })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("DeletePlanner", "Admin", new { id = planner.Id })" class="btn btn-danger">Delete</a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">View Only</span>
-                    }
-                </td>
-            </tr>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title text-primary">@planner.FullName</h5>
+                            <p class="card-text text-muted"><i class="fas fa-envelope me-2"></i>@planner.Email</p>
+                            <span class="badge bg-secondary">Role: Planner</span>
+                        </div>
+
+                        <div class="mt-3">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("EditPlanner", "Admin", new { id = planner.Id })" class="btn btn-sm btn-outline-warning me-2">
+                                    <i class="fas fa-edit me-1"></i>Edit
+                                </a>
+                                <a href="@Url.Action("DeletePlanner", "Admin", new { id = planner.Id })" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt me-1"></i>Delete
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">View Only</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+@section Styles {
+    <style>
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0.75rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+    </style>
+}

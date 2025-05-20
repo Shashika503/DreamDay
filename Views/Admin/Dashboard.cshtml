@@ -2,77 +2,92 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h3>Admin Dashboard</h3>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Number of Weddings</h5>
-                <p class="card-text">@ViewBag.NumberOfWeddings</p>
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="card text-white bg-primary shadow-sm text-center p-3">
+                <h6>Total Weddings</h6>
+                <h3>@ViewBag.NumberOfWeddings</h3>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card text-white bg-success shadow-sm text-center p-3">
+                <h6>Total Vendors</h6>
+                <h3>@ViewBag.NumberOfVendors</h3>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card text-white bg-info shadow-sm text-center p-3">
+                <h6>Total Planners</h6>
+                <h3>@ViewBag.NumberOfPlanners</h3>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card text-white bg-dark shadow-sm text-center p-3">
+                <h6>Avg. Guests/Wedding</h6>
+                <h3>@ViewBag.AverageGuestsPerWedding</h3>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Number of Vendors</h5>
-                <p class="card-text">@ViewBag.NumberOfVendors</p>
+    <!-- Donut Chart -->
+    <div class="card shadow-sm mb-5">
+        <div class="card-body text-center">
+            <h4 class="mb-4">Distribution Overview</h4>
+            <div style="max-width: 400px; margin: auto;">
+                <canvas id="statsDonutChart" height="300"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Number of Planners</h5>
-                <p class="card-text">@ViewBag.NumberOfPlanners</p>
-            </div>
-        </div>
+    <!-- Action Buttons -->
+    <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+        <a href="@Url.Action("IndexVendors", "Admin")" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-briefcase me-2"></i> Manage Vendors
+        </a>
+        <a href="@Url.Action("IndexPlanners", "Admin")" class="btn btn-outline-info btn-lg">
+            <i class="fas fa-user-tie me-2"></i> Manage Planners
+        </a>
+        <a href="@Url.Action("ExportExcel", "Admin")" class="btn btn-outline-success btn-lg">
+            <i class="fas fa-file-excel me-2"></i> Export Excel
+        </a>
+        <a href="@Url.Action("ExportToPdf", "Admin")" class="btn btn-outline-danger btn-lg">
+            <i class="fas fa-file-pdf me-2"></i> Export PDF
+        </a>
     </div>
 </div>
 
-<!-- Chart Section -->
-<h4 class="mb-4">Statistics Overview</h4>
-<canvas id="statsChart" width="400" height="200"></canvas>
-
-<!-- Manage Vendors and Planners Links -->
-<div class="mt-4">
-    <a href="@Url.Action("IndexVendors", "Admin")" class="btn btn-primary mr-3">Manage Vendors</a>
-    <a href="@Url.Action("IndexPlanners", "Admin")" class="btn btn-primary">Manage Planners</a>
-    <a href="@Url.Action("ExportExcel", "Admin")" class="btn btn-success mb-3">Export as Excel</a>
-    <a href="@Url.Action("ExportToPdf", "Admin")" class="btn btn-danger mb-3">Export as PDF</a>
-
-
-</div>
-
-<!-- Include Chart.js -->
+<!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    var ctx = document.getElementById('statsChart').getContext('2d');
-    var statsChart = new Chart(ctx, {
-        type: 'bar', // Change to 'pie' or 'line' if you prefer
+    const donutCtx = document.getElementById('statsDonutChart').getContext('2d');
+    const statsDonutChart = new Chart(donutCtx, {
+        type: 'doughnut',
         data: {
-            labels: ['Weddings', 'Vendors', 'Planners'], // Labels for each category
+            labels: ['Weddings', 'Vendors', 'Planners'],
             datasets: [{
-                label: 'Count',
                 data: [
                     @ViewBag.NumberOfWeddings,
                     @ViewBag.NumberOfVendors,
                     @ViewBag.NumberOfPlanners
                 ],
-                backgroundColor: ['#FF5733', '#33FF57', '#3357FF'], // Custom colors for each bar
-                borderColor: ['#FF5733', '#33FF57', '#3357FF'],
-                borderWidth: 1
+                backgroundColor: ['#007bff', '#28a745', '#17a2b8'],
+                borderColor: '#fff',
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 14 }
+                    }
                 }
             }
         }

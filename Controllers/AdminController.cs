@@ -132,11 +132,14 @@ namespace DreamDay.Controllers
             var numberOfWeddings = await _context.Weddings.CountAsync();
             var numberOfVendors = await _context.Vendors.CountAsync();
             var numberOfPlanners = await _userManager.GetUsersInRoleAsync("Planner");
+            var totalGuests = await _context.Guests.CountAsync();
 
             // Pass the data to the view
             ViewBag.NumberOfWeddings = numberOfWeddings;
             ViewBag.NumberOfVendors = numberOfVendors;
             ViewBag.NumberOfPlanners = numberOfPlanners.Count;
+            ViewBag.TotalGuests = totalGuests;
+            ViewBag.AverageGuestsPerWedding = numberOfWeddings > 0 ? totalGuests / numberOfWeddings : 0;
 
             return View();
         }

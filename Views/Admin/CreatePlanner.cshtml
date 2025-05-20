@@ -4,20 +4,52 @@
     ViewData["Title"] = "Create Planner";
 }
 
-<h3>Create New Planner</h3>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg rounded-4 p-4">
+                <h3 class="mb-4 text-center text-primary fw-bold">
+                    <i class="fas fa-user-plus me-2"></i>Create New Planner
+                </h3>
 
-<form asp-action="CreatePlanner" method="post">
-    <div class="mb-3">
-        <label asp-for="FullName" class="form-label">Full Name</label>
-        <input asp-for="FullName" class="form-control" required />
-        <span asp-validation-for="FullName" class="text-danger"></span>
+                <form asp-action="CreatePlanner" method="post">
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label">Full Name</label>
+                        <input asp-for="FullName" class="form-control rounded-pill px-3 py-2" placeholder="Enter full name" required />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control rounded-pill px-3 py-2" placeholder="Enter email address" type="email" required />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                            <i class="fas fa-check-circle me-2"></i>Save Planner
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label">Email</label>
-        <input asp-for="Email" class="form-control" type="email" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+@section Styles {
+    <style>
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
 
-    <button type="submit" class="btn btn-primary">Create Planner</button>
-</form>
+        .card {
+            border: none;
+        }
+
+        @@media (max-width: 576px) {
+            .card {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+}
