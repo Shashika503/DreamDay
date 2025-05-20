@@ -159,7 +159,7 @@ namespace DreamDay.Controllers
         // GET: Vendors/Create
         public IActionResult CreateVendor()
         {
-            var categories = new List<string> { "Venue", "Catering", "Photography", "Decor", "Entertainment", "Transportation" };
+            var categories = new List<string> { "Venue", "Bridal Wear", "Catering", "Photography", "Decor", "Entertainment", "Transportation" };
             ViewBag.Categories = new SelectList(categories); // Pass the categories to the view
             return View();
         }
@@ -192,7 +192,7 @@ namespace DreamDay.Controllers
                 return NotFound();
             }
 
-            var categories = new List<string> { "Venue", "Catering", "Photography", "Decor", "Entertainment", "Transportation" };
+            var categories = new List<string> { "Venue","Bridal Wear", "Catering", "Photography", "Decor", "Entertainment", "Transportation" };
             ViewBag.Categories = new SelectList(categories, vendor.Category); // Pass selected category to the view
 
             return View(vendor);
@@ -251,7 +251,7 @@ namespace DreamDay.Controllers
         }
 
         // POST: Vendors/Delete/5
-        [HttpPost, ActionName("DeleteVendor")]
+        [HttpPost, ActionName("DeleteVendorConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteVendorConfirmed(int id)
         {
@@ -376,7 +376,7 @@ namespace DreamDay.Controllers
         }
 
         // POST: Planners/Delete/5
-        [HttpPost, ActionName("DeletePlanner")]
+        [HttpPost, ActionName("DeletePlannerConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePlannerConfirmed(string id)
         {
