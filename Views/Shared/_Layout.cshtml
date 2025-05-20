@@ -38,6 +38,14 @@
                                 <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Dashboard">Weddings</a>
                             </li>
                         }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                            </li>
+                        }
+
+                        
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">Planners</a>
