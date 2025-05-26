@@ -300,8 +300,9 @@ namespace DreamDay.Controllers
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    TempData["ErrorMessage"] = error.Description;
                 }
+
             }
             return View(planner);
         }
@@ -329,7 +330,7 @@ namespace DreamDay.Controllers
         {
             if (id != planner.Id)
             {
-                return NotFound();
+                planner.Id = id;
             }
 
             if (ModelState.IsValid)
