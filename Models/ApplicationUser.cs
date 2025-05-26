@@ -9,6 +9,6 @@ public class ApplicationUser : IdentityUser
     
 
     // Navigation
-    public ICollection<Wedding> WeddingsAsCouple { get; set; }
-    public ICollection<Wedding> WeddingsAsPlanner { get; set; }
+    public ICollection<Wedding>? WeddingsAsCouple { get; set; }
+    public ICollection<Wedding>? WeddingsAsPlanner { get; set; }
 }

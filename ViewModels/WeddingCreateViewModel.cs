@@ -8,8 +8,6 @@ namespace DreamDay.ViewModels;
 
 public class WeddingCreateViewModel
 {
-    [Required]
-
     public int? Id { get; set; }
     public string Title { get; set; }
 
